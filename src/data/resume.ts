@@ -122,21 +122,21 @@ export const projects: ProjectEntry[] = [
     name:        "2 Am Buddy – N8N AI Agent",
     description: "AI-powered voice support agent using n8n automation for mental health support.",
     stack:       ["N8N", "AI", "Voice Interface"],
-    image:       "/projects/buddy.png",
+    image:       `${process.env.NEXT_PUBLIC_BASE_PATH}/projects/buddy.png`,
     featured:    true,
   },
   {
     name:        "Split Happens",
     description: "Smart expense-splitting app with OCR-based receipt scanning.",
     stack:       ["Replit AI", "OCR", "React"],
-    image:       "/projects/split.png",
+    image:       `${process.env.NEXT_PUBLIC_BASE_PATH}/projects/split.png`,
     featured:    true,
   },
   {
     name:        "Mitti-Mitra",
     description: "Social-impact prototype for community collaboration for sustainability.",
     stack:       ["Vibe Coding", "Sustainability"],
-    image:       "/projects/mitti.png",
+    image:       `${process.env.NEXT_PUBLIC_BASE_PATH}/projects/mitti.png`,
     link:        "https://github.com/ak-na-ja/Mitti-Mitra.git",
   },
 ];
@@ -157,7 +157,7 @@ export const achievements: AchievementEntry[] = [
     event:       "2nd Position",
     year:        "2024",
     description: "Secured runner-up position in a prestigious D2C business case competition.",
-    image:       "/achievements/spark.png",
+    image:       `${process.env.NEXT_PUBLIC_BASE_PATH}/achievements/spark.png`,
     icon:        "🥈",
   },
   {
@@ -165,7 +165,7 @@ export const achievements: AchievementEntry[] = [
     event:       "Certified",
     year:        "2024",
     description: "Expertise in managing and utilizing data cloud resources.",
-    image:       "/achievements/salesforce.png",
+    image:       `${process.env.NEXT_PUBLIC_BASE_PATH}/achievements/salesforce.png`,
     icon:        "☁️",
   },
   {
@@ -173,7 +173,7 @@ export const achievements: AchievementEntry[] = [
     event:       "Certified",
     year:        "2024",
     description: "Design and build custom applications on the Salesforce platform.",
-    image:       "/achievements/salesforce.png",
+    image:       `${process.env.NEXT_PUBLIC_BASE_PATH}/achievements/salesforce.png`,
     icon:        "☁️",
   },
   {
@@ -181,7 +181,7 @@ export const achievements: AchievementEntry[] = [
     event:       "Certified",
     year:        "2023",
     description: "Demonstrated skills in Apex, Visualforce, and Lightning components.",
-    image:       "/achievements/salesforce.png",
+    image:       `${process.env.NEXT_PUBLIC_BASE_PATH}/achievements/salesforce.png`,
     icon:        "☁️",
   },
   {
@@ -189,7 +189,7 @@ export const achievements: AchievementEntry[] = [
     event:       "Certified",
     year:        "2023",
     description: "Foundational certification for managing Salesforce instances.",
-    image:       "/achievements/salesforce.png",
+    image:       `${process.env.NEXT_PUBLIC_BASE_PATH}/achievements/salesforce.png`,
     icon:        "☁️",
   },
   {
@@ -197,7 +197,7 @@ export const achievements: AchievementEntry[] = [
     event:       "Certified",
     year:        "2023",
     description: "Entry-level certification demonstrating platform knowledge.",
-    image:       "/achievements/salesforce.png",
+    image:       `${process.env.NEXT_PUBLIC_BASE_PATH}/achievements/salesforce.png`,
     icon:        "☁️",
   },
 ];
