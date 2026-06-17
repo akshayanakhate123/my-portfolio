@@ -139,6 +139,7 @@ export const projects: ProjectEntry[] = [
     description: "Built a self-serve SaaS platform that automates growth audits for D2C brands in minutes instead of hours. Analyzes websites across PDP health, creatives, social presence, retention signals, and SEO to generate actionable recommendations. Reduced audit turnaround time from 6 hours to 20 minutes and tested across 10+ live brands.",
     stack:       ["Next.js", "FastAPI", "Playwright", "Groq", "Supabase", "Railway"],
     image:       `${bp}/projects/audit.png`,
+    link:        "https://audit-gpt-c.vercel.app",
     featured:    true,
   },
   {
@@ -146,6 +147,7 @@ export const projects: ProjectEntry[] = [
     description: "Built an audio-first platform that helps MBA students practice guesstimates and case interviews through voice interactions. Generates daily reasoning challenges and delivers AI feedback on structure, assumptions, accuracy, and creativity. Added streak-based progression and PDF exports. Implemented a multi-LLM fallback system to ensure uninterrupted performance.",
     stack:       ["Next.js", "Groq", "Gemini", "Speech-to-Text"],
     image:       `${bp}/projects/mindloop.png`,
+    link:        "https://mind-loop-k3xq.vercel.app",
   },
   {
     name:        "Mentorship Booking Portal",
