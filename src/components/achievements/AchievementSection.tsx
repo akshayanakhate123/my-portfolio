@@ -59,24 +59,7 @@ export default function AchievementSection() {
 
       {/* Marquee strip */}
       <div className="overflow-hidden">
-        <style>{`
-          @keyframes marquee-rtl {
-            from { transform: translate3d(0, 0, 0); }
-            to   { transform: translate3d(-50%, 0, 0); }
-          }
-          .marquee-track {
-            display: flex;
-            width: max-content;
-            animation: marquee-rtl 40s linear infinite;
-            will-change: transform;
-            backface-visibility: hidden;
-          }
-          .marquee-track:hover {
-            animation-play-state: paused;
-          }
-        `}</style>
-
-        <div className="marquee-track gap-4" style={{ gap: "1rem" }}>
+        <div className="marquee-track" style={{ gap: "1rem" }}>
           {doubled.map((item, i) => (
             <div key={i} style={{ marginRight: "1rem" }}>
               <AchievementTile item={item} />

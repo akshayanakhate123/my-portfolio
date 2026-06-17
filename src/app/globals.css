@@ -47,6 +47,23 @@
   }
 }
 
+@keyframes marquee-rtl {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-rtl 40s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
 /* ── Base reset ────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
