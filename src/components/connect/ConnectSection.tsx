@@ -15,14 +15,14 @@ const GithubIcon = ({ size = 20 }: { size?: number }) => (
 
 export default function ConnectSection() {
   return (
-    <section id="connect" className="relative py-48 bg-black overflow-hidden px-6 border-t border-white/5">
+    <section id="connect" className="relative py-12 bg-black overflow-hidden px-6 border-t border-white/5">
       {/* Background Interactive Dots - On Top for Interaction, but non-blocking */}
       <div className="absolute inset-0 z-50 pointer-events-none">
         <InteractiveDots />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10 flex flex-col items-center">
-        <div className="flex flex-col items-center text-center space-y-12 mb-32">
+        <div className="flex flex-col items-center text-center space-y-4 mb-8">
            <motion.span 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -33,22 +33,22 @@ export default function ConnectSection() {
           
           <div className="relative w-full overflow-visible">
             {/* SVG heading optimized for scale without truncation */}
-            <h2 className="text-6xl md:text-8xl lg:text-[10rem] font-display font-black uppercase text-white tracking-tighter leading-[0.9] flex flex-wrap justify-center overflow-visible">
-              LET&apos;S <span className="text-accent/20 mx-4">CONNECT</span>
+            <h2 className="text-4xl md:text-5xl font-display font-black uppercase text-white tracking-tighter leading-tight flex flex-wrap justify-center overflow-visible">
+              LET&apos;S <span className="mx-4">CONNECT</span>
             </h2>
           </div>
 
           <motion.p 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            className="text-white/30 max-w-lg text-lg md:text-xl leading-relaxed italic"
+            className="text-white/30 max-w-lg text-sm leading-relaxed italic"
           >
             &quot;Bringing tech and business together, one connection at a time.&quot;
           </motion.p>
         </div>
 
         {/* Action Row */}
-        <div className="flex flex-wrap justify-center gap-8 md:gap-16 border-t border-white/5 pt-16 w-full max-w-4xl">
+        <div className="flex flex-wrap justify-center gap-8 md:gap-16 border-t border-white/5 pt-8 w-full max-w-4xl">
           <SocialLink 
             href={`mailto:${connect.email}`} 
             label="EMAIL" 

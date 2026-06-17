@@ -1,214 +1,125 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import { education, type EducationEntry } from "@/data/resume";
+import { GraduationCap, Landmark, BookOpen, Calendar, Star, Shield } from "lucide-react";
 
-/* ── Helpers ──────────────────────────────────────────────── */
-const fadeUp = {
-  hidden: {
-    opacity: 0,
-    y: 30,
-  },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.25, 0.1, 0.25, 1] as const,
-    },
-  },
-};
+const ICONS = [GraduationCap, Landmark, BookOpen, BookOpen];
 
-const stagger = {
-  hidden: {},
-  show:   { transition: { staggerChildren: 0.15 } },
-};
-
-/* ── Single Education Card ────────────────────────────────── */
 function EduCard({ entry, index }: { entry: EducationEntry; index: number }) {
-  const ref    = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-10%" });
+  const isLast = index === education.length - 1;
 
   return (
     <motion.div
-      ref={ref}
-      variants={fadeUp}
-      initial="hidden"
-      animate={inView ? "show" : "hidden"}
-      transition={{ delay: index * 0.12 }}
-      className="group relative flex gap-6 items-start"
+      initial={{ opacity: 0, x: 24 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-8%" }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="flex gap-5"
     >
-      {/* ── Left: index number ── */}
-      <div className="flex-shrink-0 flex flex-col items-center">
+      {/* Timeline column */}
+      <div className="flex flex-col items-center flex-shrink-0">
         <div
-          className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-mono font-bold transition-all duration-300"
-          style={{
-            background:   entry.current ? "var(--accent)" : "var(--bg-surface)",
-            color:        entry.current ? "#fff"          : "var(--fg-muted)",
-            border:       `1px solid ${entry.current ? "var(--accent)" : "var(--border)"}`,
-            boxShadow:    entry.current ? "0 0 20px rgba(249,115,22,0.35)" : "none",
-          }}
+          className={`w-11 h-11 rounded-full flex items-center justify-center font-mono text-sm font-bold z-10 ${
+            entry.current
+              ? "bg-accent text-black shadow-[0_0_20px_rgba(249,115,22,0.4)]"
+              : "bg-[#1a1a1e] text-white/40 border border-white/10"
+          }`}
         >
           {String(index + 1).padStart(2, "0")}
         </div>
-        {/* connector dot at bottom */}
-        <div
-          className="w-px flex-1 mt-3 min-h-[2rem]"
-          style={{ background: "var(--border)" }}
-        />
+        {!isLast && <div className="w-px flex-1 mt-1 bg-white/8 min-h-[2rem]" />}
       </div>
 
-      {/* ── Right: card ── */}
+      {/* Card */}
       <div
-        className="flex-1 mb-8 rounded-2xl p-6 transition-all duration-300 group-hover:translate-y-[-2px]"
-        style={{
-          background:   "var(--bg-surface)",
-          border:       "1px solid var(--border)",
-        }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLDivElement).style.borderColor = "var(--border-accent)";
-          (e.currentTarget as HTMLDivElement).style.boxShadow   = "0 0 32px rgba(249,115,22,0.08)";
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLDivElement).style.borderColor = "var(--border)";
-          (e.currentTarget as HTMLDivElement).style.boxShadow   = "none";
-        }}
+        className={`flex-1 mb-6 rounded-2xl border transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-[0_0_32px_rgba(249,115,22,0.06)] ${
+          entry.current ? "border-accent/40 bg-[#111114]" : "border-white/6 bg-[#111114]"
+        }`}
       >
-        {/* top row */}
-        <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
-          <div>
-            <h3
-              className="font-display font-bold text-lg leading-tight mb-1"
-              style={{ color: "var(--fg)" }}
-            >
-              {entry.degree}
-            </h3>
-            <p className="text-sm" style={{ color: "var(--fg-muted)" }}>
-              {entry.institution}
-              <span
-                className="mx-2 inline-block w-1 h-1 rounded-full align-middle"
-                style={{ background: "var(--border-accent)" }}
-              />
-              {entry.location}
-            </p>
+        <div className="p-5 flex gap-4">
+          {/* Icon box */}
+          <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-[#1c1c21] border border-white/8 flex items-center justify-center text-white/50">
+            {(() => { const I = ICONS[index]; return I ? <I size={22} strokeWidth={1.5} /> : null; })()}
           </div>
 
-          <div className="flex items-center gap-2 flex-shrink-0">
-            {/* badge */}
-            {entry.highlight && (
-              <span
-                className="text-[10px] font-mono px-2 py-0.5 rounded-full tracking-widest uppercase"
-                style={{
-                  background: "var(--accent-dim)",
-                  color:      "var(--accent)",
-                  border:     "1px solid var(--border-accent)",
-                }}
-              >
-                {entry.highlight}
-              </span>
-            )}
-            {/* current badge */}
-            {entry.current && (
-              <span
-                className="text-[10px] font-mono px-2 py-0.5 rounded-full tracking-wider uppercase flex items-center gap-1"
-                style={{
-                  background: "rgba(34,197,94,0.1)",
-                  color:      "rgb(34,197,94)",
-                  border:     "1px solid rgba(34,197,94,0.25)",
-                }}
-              >
-                <span
-                  className="inline-block w-1.5 h-1.5 rounded-full"
-                  style={{ background: "rgb(34,197,94)", boxShadow: "0 0 5px rgb(34,197,94)" }}
-                />
-                Current
-              </span>
-            )}
-          </div>
-        </div>
+          {/* Content */}
+          <div className="flex-1 min-w-0">
+            {/* Top row: title + badges */}
+            <div className="flex flex-wrap items-start justify-between gap-2 mb-1">
+              <div>
+                <h3 className="font-display font-bold text-sm md:text-base text-white leading-tight">
+                  {entry.degree}
+                </h3>
+                <p className="text-sm text-white/45 mt-0.5">
+                  {entry.institution}
+                  <span className="mx-2 inline-block w-1 h-1 rounded-full bg-accent/60 align-middle" />
+                  {entry.location}
+                </p>
+              </div>
 
-        {/* duration + cgpa row */}
-        <div className="flex flex-wrap items-center gap-4">
-          <span
-            className="font-mono text-xs tracking-wide"
-            style={{ color: "var(--fg-subtle)" }}
-          >
-            📅 {entry.duration}
-          </span>
-          {entry.cgpa && (
-            <span
-              className="font-mono text-xs tracking-wide"
-              style={{ color: "var(--fg-subtle)" }}
-            >
-              CGPA {entry.cgpa}
-            </span>
-          )}
+              <div className="flex items-center gap-2 flex-shrink-0">
+                {entry.highlight && (
+                  <span className="text-[10px] font-mono px-2.5 py-0.5 rounded bg-accent/20 text-accent border border-accent/30 uppercase tracking-widest">
+                    {entry.highlight}
+                  </span>
+                )}
+                {entry.current && (
+                  <span className="text-[10px] font-mono px-2.5 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/25 uppercase tracking-wider">
+                    Current
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Meta row */}
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 font-mono text-xs text-white/35">
+              <span className="flex items-center gap-1"><Calendar size={11} strokeWidth={1.5} /> {entry.duration}</span>
+              {entry.cgpa && (
+                <>
+                  <span className="text-white/15">|</span>
+                  <span className="flex items-center gap-1"><Star size={11} strokeWidth={1.5} /> {entry.cgpa}</span>
+                </>
+              )}
+              {entry.rank && (
+                <>
+                  <span className="text-white/15">|</span>
+                  <span className="flex items-center gap-1"><Shield size={11} strokeWidth={1.5} /> {entry.rank}</span>
+                </>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </motion.div>
   );
 }
 
-/* ── Section ──────────────────────────────────────────────── */
 export default function EducationSection() {
-  const headRef    = useRef<HTMLDivElement>(null);
-  const headInView = useInView(headRef, { once: true, margin: "-10%" });
-
   return (
-    <section
-      id="education"
-      aria-label="Education"
-      className="relative w-full py-24 px-6 overflow-hidden"
-    >
-      {/* bg accent glow */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 rounded-full"
-        style={{
-          width:  "60vw",
-          height: "30vw",
-          background: "radial-gradient(ellipse at top, rgba(249,115,22,0.05) 0%, transparent 70%)",
-          filter: "blur(24px)",
-        }}
-      />
+    <section id="education" className="relative py-16 px-6 max-w-7xl mx-auto">
+      {/* Heading */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="mb-10"
+      >
+        <p className="font-mono text-[11px] tracking-[0.4em] uppercase text-accent mb-3">
+          Background
+        </p>
+        <h2 className="font-display font-black text-4xl md:text-5xl uppercase text-white leading-none tracking-tighter">
+          Education
+        </h2>
+        <div className="mt-5 h-1 w-14 bg-accent rounded-full" />
+      </motion.div>
 
-      <div className="relative z-10 max-w-3xl mx-auto">
-        {/* ── Section heading ── */}
-        <motion.div
-          ref={headRef}
-          variants={stagger}
-          initial="hidden"
-          animate={headInView ? "show" : "hidden"}
-          className="mb-14"
-        >
-          <motion.p
-            variants={fadeUp}
-            className="font-mono text-[11px] tracking-[0.4em] uppercase mb-3"
-            style={{ color: "var(--accent)" }}
-          >
-            Background
-          </motion.p>
-          <motion.h2
-            variants={fadeUp}
-            className="font-display font-bold text-4xl sm:text-5xl leading-tight"
-            style={{ color: "var(--fg)" }}
-          >
-            Education
-          </motion.h2>
-          <motion.div
-            variants={fadeUp}
-            className="mt-4 h-px w-16"
-            style={{ background: "var(--accent)" }}
-          />
-        </motion.div>
-
-        {/* ── Cards ── */}
-        <div>
-          {education.map((entry, i) => (
-            <EduCard key={i} entry={entry} index={i} />
-          ))}
-        </div>
+      {/* Timeline cards */}
+      <div className="max-w-4xl mx-auto">
+        {education.map((entry, i) => (
+          <EduCard key={i} entry={entry} index={i} />
+        ))}
       </div>
     </section>
   );

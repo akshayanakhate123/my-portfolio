@@ -38,7 +38,7 @@ export default function InteractiveDots() {
       }
 
       draw() {
-        ctx!.fillStyle = "rgba(249, 115, 22, 0.5)";
+        ctx!.fillStyle = "rgba(249, 115, 22, 0.75)";
         ctx!.beginPath();
         ctx!.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx!.closePath();
@@ -74,7 +74,8 @@ export default function InteractiveDots() {
 
     const init = () => {
       particles = [];
-      const numberOfParticles = (canvas.width * canvas.height) / 7000;
+      // Cap at 60 particles — O(n²) connect() is the main perf culprit
+      const numberOfParticles = Math.min(Math.floor((canvas.width * canvas.height) / 18000), 60);
       for (let i = 0; i < numberOfParticles; i++) {
         let x = Math.random() * canvas.width;
         let y = Math.random() * canvas.height;
@@ -100,7 +101,7 @@ export default function InteractiveDots() {
           let distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < 150) {
-            ctx.strokeStyle = `rgba(249, 115, 22, ${0.15 * (1 - distance / 150)})`;
+            ctx.strokeStyle = `rgba(249, 115, 22, ${0.4 * (1 - distance / 150)})`;
             ctx.lineWidth = 0.8;
             ctx.beginPath();
             ctx.moveTo(particles[a].x, particles[a].y);
@@ -135,5 +136,5 @@ export default function InteractiveDots() {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="absolute inset-0 z-0 pointer-events-none" />;
+  return <canvas ref={canvasRef} className="absolute inset-0 z-0 pointer-events-none" style={{ willChange: "transform" }} />;
 }

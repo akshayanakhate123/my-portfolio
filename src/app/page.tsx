@@ -1,7 +1,5 @@
 import Preloader from "@/components/preloader/Preloader";
 import HeroSection from "@/components/hero/HeroSection";
-import RoleSection from "@/components/role/RoleSection";
-import ManifestoSection from "@/components/manifesto/ManifestoSection";
 import EducationSection from "@/components/education/EducationSection";
 import JourneySection from "@/components/journey/JourneySection";
 import ProjectSection from "@/components/projects/ProjectSection";
@@ -18,14 +16,8 @@ export default function Home() {
 
       {/* Hero Section: Followed by Name (Akshaya) appearing */}
       <HeroSection />
-      
-      {/* Manifesto (Huge color-reveal text) */}
-      <ManifestoSection />
 
-      {/* Role one-liner */}
-      <RoleSection />
-
-      <div className="space-y-40 mb-24">
+      <div className="space-y-0 mb-16">
         {/* Education (Including 10th marks) */}
         <EducationSection />
 

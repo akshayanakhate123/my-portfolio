@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const repoName = "my-portfolio";
+const isProd = process.env.NODE_ENV === "production";
 
 const nextConfig: NextConfig = {
   output: "export",
@@ -8,12 +9,12 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
 
-  basePath: `/${repoName}`,
-  assetPrefix: `/${repoName}/`,
+  basePath: isProd ? `/${repoName}` : "",
+  assetPrefix: isProd ? `/${repoName}/` : "",
 
   eslint: {
-  ignoreDuringBuilds: true,
-},
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextConfig;

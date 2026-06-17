@@ -6,7 +6,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="py-20 px-6 border-t border-white/5 bg-black">
+    <footer className="py-8 px-6 border-t border-white/5 bg-black">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
         <div className="flex flex-col items-center md:items-start gap-4">
           <div className="flex items-center gap-3">
@@ -24,7 +24,7 @@ export default function Footer() {
           <a href="#hero" className="text-white/40 hover:text-accent transition-colors font-mono text-[10px] uppercase tracking-widest">Top</a>
           <a href="#experience" className="text-white/40 hover:text-accent transition-colors font-mono text-[10px] uppercase tracking-widest">Journey</a>
           <a href="#projects" className="text-white/40 hover:text-accent transition-colors font-mono text-[10px] uppercase tracking-widest">Work</a>
-          <a href="#achievements" className="text-white/40 hover:text-accent transition-colors font-mono text-[10px] uppercase tracking-widest">Honors</a>
+          <a href="#achievements" className="text-white/40 hover:text-accent transition-colors font-mono text-[10px] uppercase tracking-widest">Achievements</a>
         </nav>
 
         {/* Removed attribution per user request */}
@@ -34,7 +34,7 @@ export default function Footer() {
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         transition={{ duration: 1.5, ease: "easeInOut" }}
-        className="max-w-7xl mx-auto h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent mt-20"
+        className="max-w-7xl mx-auto h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent mt-8"
       />
     </footer>
   );
