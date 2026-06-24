@@ -177,7 +177,7 @@ export const projects: ProjectEntry[] = [
     name:        "SuccessOS – AI-Powered Exam Prep Platform",
     description: "Built a behavioral-infrastructure platform that transforms exam preparation from passive consumption to active mastery. A Nudge Bot interrupts passive reading every 15 minutes with conceptual prompts, while Mastery Gates run weekly concept-transfer tests using unfamiliar question formats to validate true understanding. The system auto-generates 25 micro-tasks each Sunday from student-selected topics. A Topic Mastery Heatmap, cohort leaderboard, and peer doubt resolution via voice notes and annotated images drive structured learning and accountability.",
     stack:       ["React 18", "TypeScript", "Tailwind CSS", "shadcn/ui", "Supabase", "Vite 5", "Perplexity API"],
-    link:        "https://success-os.lovable.app",
+    link:        "https://prep-os-success-path.lovable.app",
   },
   {
     name:        "Split Happens – OCR-Powered AI Bill Splitting App",
