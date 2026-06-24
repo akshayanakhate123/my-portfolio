@@ -48,7 +48,7 @@ export default function ConnectSection() {
         </div>
 
         {/* Action Row */}
-        <div className="flex flex-wrap justify-center gap-8 md:gap-16 border-t border-white/5 pt-8 w-full max-w-4xl">
+        <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-6 md:gap-16 border-t border-white/5 pt-8 w-full max-w-4xl">
           <SocialLink 
             href={`mailto:${connect.email}`} 
             label="EMAIL" 

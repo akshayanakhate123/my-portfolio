@@ -52,7 +52,7 @@ export default function AchievementSection() {
     <section id="achievements" className="relative py-16">
       {/* Heading */}
       <div className="px-6 max-w-7xl mx-auto mb-10">
-        <h2 className="text-4xl md:text-5xl font-display font-black uppercase tracking-tighter text-white leading-none">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black uppercase tracking-tighter text-white leading-tight">
           Awards and Achievements
         </h2>
       </div>

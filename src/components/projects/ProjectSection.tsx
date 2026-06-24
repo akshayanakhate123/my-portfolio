@@ -20,7 +20,7 @@ function ProjectCard({ project, index }: { project: ProjectEntry; index: number 
     /* Fixed size — all cards identical */
     <div
       data-card
-      className="relative flex-shrink-0 snap-center w-[78vw] sm:w-[54vw] lg:w-[36vw] xl:w-[28vw] h-[520px]"
+      className="relative flex-shrink-0 snap-center w-[85vw] sm:w-[54vw] lg:w-[36vw] xl:w-[28vw] h-[460px] sm:h-[520px]"
       style={{ perspective: "1200px" }}
       onClick={() => setFlipped(f => !f)}
     >

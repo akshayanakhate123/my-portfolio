@@ -54,7 +54,7 @@ export const education: EducationEntry[] = [
   },
   {
     degree:      "Class 10 (CBSE)",
-    institution: "Gyan Ganga International Academy",
+    institution: "Saint Joseph's Convent Idgah Hill",
     location:    "Bhopal, MP",
     duration:    "2016",
     cgpa:        "CGPA 10 / 10",

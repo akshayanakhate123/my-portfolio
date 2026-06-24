@@ -51,9 +51,9 @@ function EduCard({ entry, index }: { entry: EducationEntry; index: number }) {
                 <h3 className="font-display font-bold text-sm md:text-base text-white leading-tight">
                   {entry.degree}
                 </h3>
-                <p className="text-sm text-white/45 mt-0.5">
+                <p className="text-xs sm:text-sm text-white/45 mt-0.5 leading-snug">
                   {entry.institution}
-                  <span className="mx-2 inline-block w-1 h-1 rounded-full bg-accent/60 align-middle" />
+                  <span className="mx-1.5 inline-block w-1 h-1 rounded-full bg-accent/60 align-middle" />
                   {entry.location}
                 </p>
               </div>

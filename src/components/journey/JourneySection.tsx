@@ -73,10 +73,10 @@ export default function JourneySection({ title, label, data, id, isFirst: _isFir
         <span className="font-mono text-xs text-accent tracking-[0.4em] uppercase font-bold shrink-0">
           {label}
         </span>
-        <h2 className="text-4xl md:text-5xl font-display font-black uppercase tracking-tighter leading-none text-white">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black uppercase tracking-tighter leading-none text-white">
           {title}
         </h2>
-        <div className="h-px flex-1 bg-white/5" />
+        <div className="hidden sm:block h-px flex-1 bg-white/5" />
       </motion.div>
 
       {/* Full-width timeline entries */}

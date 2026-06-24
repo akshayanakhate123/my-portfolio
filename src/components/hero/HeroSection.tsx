@@ -46,7 +46,7 @@ export default function HeroSection() {
       </motion.div>
 
       {/* Main Hero Content */}
-      <div className="relative z-20 flex flex-col md:flex-row items-center justify-between min-h-screen w-full px-6 md:px-12 lg:px-24 gap-16 md:gap-32">
+      <div className="relative z-20 flex flex-col md:flex-row items-center justify-between min-h-screen w-full px-6 md:px-12 lg:px-24 gap-8 md:gap-32">
         
         {/* Left Side: Text Content */}
         <motion.div
@@ -55,7 +55,7 @@ export default function HeroSection() {
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           className="flex-shrink-0 flex flex-col items-start justify-center text-left pt-32 md:pt-0 z-30"
         >
-          <h1 className="text-6xl md:text-[6rem] lg:text-[7.5rem] font-display font-black uppercase text-white leading-[0.9] tracking-tighter mb-6 whitespace-nowrap">
+          <h1 className="text-[2.8rem] sm:text-6xl md:text-[6rem] lg:text-[7.5rem] font-display font-black uppercase text-white leading-[0.9] tracking-tighter mb-6">
             AKSHAYA<br/>NAKHATE
           </h1>
           <motion.p
@@ -96,16 +96,15 @@ export default function HeroSection() {
           </motion.div>
         </motion.div>
 
-        {/* Right Side: The 3D Robot (Full Body & Arms) */}
+        {/* Right Side: The 3D Robot — hidden on mobile to avoid overflow */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
-          className="flex-1 w-full h-[60vh] md:h-screen relative z-10 flex items-center justify-center"
+          className="hidden md:flex flex-1 w-full h-screen relative z-10 items-center justify-center"
         >
-          {/* By forcing a minimum width that exceeds the flex container, we stop Spline from cropping the sides (arms) */}
           <div className="absolute flex items-center justify-center min-w-[800px] lg:min-w-[1200px] h-[80vh] md:h-[120vh] pointer-events-auto">
-            <SplineScene 
+            <SplineScene
               scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
               className="w-full h-full"
             />

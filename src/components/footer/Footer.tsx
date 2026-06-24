@@ -20,7 +20,7 @@ export default function Footer() {
           </p>
         </div>
 
-        <nav className="flex gap-8">
+        <nav className="flex flex-wrap justify-center gap-6 md:gap-8">
           <a href="#hero" className="text-white/40 hover:text-accent transition-colors font-mono text-[10px] uppercase tracking-widest">Top</a>
           <a href="#experience" className="text-white/40 hover:text-accent transition-colors font-mono text-[10px] uppercase tracking-widest">Journey</a>
           <a href="#projects" className="text-white/40 hover:text-accent transition-colors font-mono text-[10px] uppercase tracking-widest">Work</a>
