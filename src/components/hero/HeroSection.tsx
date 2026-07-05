@@ -87,7 +87,7 @@ export default function HeroSection() {
               View Projects <span>↗</span>
             </a>
             <a
-              href={`${process.env.NODE_ENV === "production" ? (process.env.NEXT_PUBLIC_BASE_PATH ?? "") : ""}/AkshayaNakhate_Resume.pdf`}
+              href="/AkshayaNakhate_Resume.pdf"
               download="AkshayaNakhate_Resume.pdf"
               className="flex items-center gap-2 px-6 py-3 border border-white/20 text-white font-mono text-xs uppercase tracking-widest font-black hover:border-white/50 transition-colors rounded-sm"
             >

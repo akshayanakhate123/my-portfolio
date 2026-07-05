@@ -2,10 +2,7 @@
    resume.ts  —  Single source of truth
 ───────────────────────────────────────────────────────────── */
 
-// Only prepend basePath in production builds — dev serves files at root
-const bp = process.env.NODE_ENV === "production"
-  ? (process.env.NEXT_PUBLIC_BASE_PATH ?? "")
-  : "";
+const bp = "";
 
 export const hero = {
   name:      "Akshaya Nakhate",
