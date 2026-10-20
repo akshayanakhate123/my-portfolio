@@ -2,7 +2,7 @@
    resume.ts  —  Single source of truth
 ───────────────────────────────────────────────────────────── */
 
-const bp = "";
+const bp = process.env.NODE_ENV === "production" ? "/my-portfolio" : "";
 
 export const hero = {
   name:      "Akshaya Nakhate",
