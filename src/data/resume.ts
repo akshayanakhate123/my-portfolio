@@ -6,8 +6,8 @@ const bp = "";
 
 export const hero = {
   name:      "Akshaya Nakhate",
-  oneLiner:  "Product-focused engineer with 2 years of experience building AI-enabled workflows, automation solutions, and user-centric products across healthcare and SaaS ecosystems.",
-  manifesto: "Strong background in workflow automation, AI integrations, and product execution — translating user needs and business problems into scalable technical solutions.",
+  oneLiner:  "Associate Product Manager specialising in Growth & AI Products — shipping AI-enabled workflows, self-serve platforms, and data-driven product experiences across fintech, healthtech, and SaaS.",
+  manifesto: "Strong background in product discovery, GenAI integrations, and cross-functional execution — translating user research and business problems into measurable, scalable product outcomes.",
 };
 
 /* ── Education ────────────────────────────────────────────── */
@@ -29,7 +29,7 @@ export const education: EducationEntry[] = [
     institution: "Scaler School of Business",
     location:    "Bangalore",
     duration:    "2025 – 2027",
-    cgpa:        "3.69 / 4",
+    cgpa:        "3.71 / 4",
     rank:        "Top 10% of Cohort",
     current:     true,
     highlight:   "MBA",
@@ -72,11 +72,20 @@ export interface JourneyEntry {
 
 export const workExperience: JourneyEntry[] = [
   {
+    company:     "InCred Wealth",
+    role:        "Product Intern",
+    location:    "Bengaluru",
+    duration:    "Aug 2026 – Oct 2026",
+    description: "SEBI-registered wealth management platform offering mutual funds, bonds, and investment advisory services to HNI clients across India. Built a Zoho CRM for AMC sales workflows across 7 Relationship Managers and 20 distributor accounts — saving 25–35% of daily manual tracking per RM with automated scheduling, activity logging, and a real-time CEO dashboard. Led discovery and requirements for a self-serve distributor onboarding portal with document upload, automated review routing, and Aadhaar e-sign — targeting 75% faster onboarding. Consolidated 10+ metric sources across social, web, and PR into a single Zoho marketing analytics dashboard, defining the KPI framework with marketing and leadership for real-time visibility across InCred Wealth, Finance, and Capital.",
+    tags: ["Zoho CRM", "Product Discovery", "PRDs", "Analytics Dashboard", "Fintech"],
+    type: "work",
+  },
+  {
     company:     "Accenture India Pvt Ltd",
     role:        "Advance Application Engineer Analyst",
     location:    "India",
     duration:    "Jul 2022 – Aug 2024",
-    description: "Salesforce Developer building AI-enabled workflows and automation solutions across healthcare and SaaS clients. Solely owned a GenAI PoC integrating Data Cloud and Einstein LLM — reduced manual effort by 40% and improved agent query resolution speed by 30–50%. Resolved 50+ failed Apex and LWC test classes across enterprise clients, cutting deployment turnaround by 50%+ with zero SLA breaches. Automated recurring patient onboarding workflows, slashing intake time from 20 to 8 minutes. Drove 80% feature adoption across 2 engagements and automated 50+ survey cycles across 1,000+ patients, increasing repeat participation by 25%+.",
+    description: "Salesforce Developer building AI-enabled workflows and automation solutions across healthcare and SaaS clients. Shipped a GenAI PoC on Salesforce Data Cloud and Einstein LLM for a hospital client's patient support workflows — cut manual effort by 40% and improved support resolution efficiency by 35%. Built a profile completion automation tracker in LWC and Apex, driving 80% adoption across 2 engagements. Automated recurring patient onboarding case workflows, cutting intake time from 20 to 8 minutes. Automated 50+ survey cycles across 1,000+ patients, lifting repeat participation by 25%+. Resolved 50+ failed Apex and LWC test classes across enterprise clients (INITIENT, Lash Fusion), reducing deployment turnaround by 50%+.",
     tags: ["Salesforce", "Apex", "LWC", "GenAI", "Einstein LLM", "Data Cloud"],
     type: "work",
   },
