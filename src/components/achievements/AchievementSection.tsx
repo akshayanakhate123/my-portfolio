@@ -2,11 +2,13 @@
 
 import { achievements } from "@/data/resume";
 import Image from "next/image";
-import * as LucideIcons from "lucide-react";
+import { Trophy, Medal, Award, Target, Flame, BarChart2, FileText, Cloud, Microscope, Layers, Code2, Settings2 } from "lucide-react";
+
+const ICON_MAP: Record<string, React.ElementType> = { Trophy, Medal, Award, Target, Flame, BarChart2, FileText, Cloud, Microscope, Layers, Code2, Settings2 };
 
 function Icon({ name, size = 20 }: { name?: string; size?: number }) {
   if (!name) return null;
-  const Comp = (LucideIcons as any)[name];
+  const Comp = ICON_MAP[name];
   if (!Comp) return null;
   return <Comp size={size} strokeWidth={1.5} />;
 }
@@ -20,6 +22,7 @@ function AchievementTile({ item }: { item: any }) {
           src={item.image}
           alt={item.title}
           fill
+          loading="lazy"
           className="object-cover opacity-75 group-hover:opacity-95 group-hover:scale-105 transition-all duration-700"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-[#111114]" />

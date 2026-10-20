@@ -8,7 +8,8 @@ export default function HeroSection() {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsReady(true), 1500);
+    // Small tick so first paint completes before animations begin
+    const timer = setTimeout(() => setIsReady(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
@@ -61,7 +62,7 @@ export default function HeroSection() {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: isReady ? 1 : 0 }}
-            transition={{ delay: 1 }}
+            transition={{ delay: 0.3 }}
             className="font-mono text-xs md:text-sm tracking-[0.25em] uppercase text-accent font-black mb-6"
           >
             Engineer → MBA → Product Builder
@@ -69,7 +70,7 @@ export default function HeroSection() {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: isReady ? 1 : 0 }}
-            transition={{ delay: 1.3 }}
+            transition={{ delay: 0.5 }}
             className="text-sm md:text-base text-white/50 leading-relaxed max-w-sm mb-10"
           >
             From building enterprise solutions at Accenture to launching AI-powered products and winning national case competitions.
@@ -77,7 +78,7 @@ export default function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: isReady ? 1 : 0, y: isReady ? 0 : 10 }}
-            transition={{ delay: 1.6 }}
+            transition={{ delay: 0.7 }}
             className="flex flex-wrap gap-4"
           >
             <a
@@ -127,7 +128,7 @@ export default function HeroSection() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: isReady ? 1 : 0 }}
-        transition={{ delay: 2 }}
+        transition={{ delay: 1 }}
         className="absolute bottom-10 left-10 z-30 flex items-center gap-3"
       >
         <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center">

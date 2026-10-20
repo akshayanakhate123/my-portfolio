@@ -14,6 +14,7 @@ const GithubIcon = ({ size = 18 }: { size?: number }) => (
 );
 
 function ProjectCard({ project, index }: { project: ProjectEntry; index: number }) {
+  // Only the first 2 cards are above the fold — rest load lazily
   const [flipped, setFlipped] = useState(false);
 
   return (
@@ -53,6 +54,8 @@ function ProjectCard({ project, index }: { project: ProjectEntry; index: number 
                 src={project.image}
                 alt={project.name}
                 fill
+                priority={index < 2}
+                loading={index < 2 ? "eager" : "lazy"}
                 className="object-contain opacity-95 p-2"
               />
             ) : (
