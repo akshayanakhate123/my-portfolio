@@ -54,27 +54,67 @@ export default function HeroSection() {
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: isReady ? 1 : 0, x: isReady ? 0 : -50 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="flex-shrink-0 flex flex-col items-start justify-center text-left pt-32 md:pt-0 z-30"
+          className="flex-shrink-0 flex flex-col items-start justify-center text-left pt-32 md:pt-0 z-30 max-w-lg"
         >
-          <h1 className="text-[2.8rem] sm:text-6xl md:text-[6rem] lg:text-[7.5rem] font-display font-black uppercase text-white leading-[0.9] tracking-tighter mb-6">
-            AKSHAYA<br/>NAKHATE
-          </h1>
+          {/* "HEY, I'M" label */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: isReady ? 1 : 0 }}
-            transition={{ delay: 0.3 }}
-            className="font-mono text-xs md:text-sm tracking-[0.25em] uppercase text-accent font-black mb-6"
+            transition={{ delay: 0.1 }}
+            className="font-mono text-xs md:text-sm tracking-[0.35em] uppercase text-white/40 font-bold mb-3"
           >
-            Engineer → MBA → Product Builder
+            HEY, I&apos;M
           </motion.p>
+
+          {/* Name in accent colour */}
+          <h1 className="text-[3.2rem] sm:text-[4.5rem] md:text-[5.5rem] lg:text-[6.5rem] font-display font-black uppercase text-accent leading-[0.88] tracking-tighter mb-5">
+            AKSHAYA<br/>NAKHATE
+          </h1>
+
+          {/* Bold tagline */}
+          <motion.h2
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isReady ? 1 : 0 }}
+            transition={{ delay: 0.3 }}
+            className="text-lg sm:text-xl md:text-2xl font-display font-black uppercase text-white leading-tight tracking-tight mb-4 max-w-sm"
+          >
+            Building AI products that move fast and scale faster.
+          </motion.h2>
+
+          {/* Current role */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isReady ? 1 : 0 }}
+            transition={{ delay: 0.45 }}
+            className="text-sm text-white/50 mb-2"
+          >
+            Currently pursuing MBA at{" "}
+            <span className="text-white/80 font-semibold">Scaler School of Business</span>
+          </motion.p>
+
+          {/* Location */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: isReady ? 1 : 0 }}
             transition={{ delay: 0.5 }}
-            className="text-sm md:text-base text-white/50 leading-relaxed max-w-sm mb-10"
+            className="flex items-center gap-1.5 text-xs text-white/35 font-mono mb-7"
           >
-            From building enterprise solutions at Accenture to launching AI-powered products and winning national case competitions.
+            <span>📍</span> Bengaluru, India
           </motion.p>
+
+          {/* Bio */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isReady ? 1 : 0 }}
+            transition={{ delay: 0.6 }}
+            className="text-sm text-white/45 leading-relaxed max-w-sm mb-9"
+          >
+            Engineer turned product builder with 2+ years at Accenture shipping GenAI workflows.
+            I specialise in AI-powered products, growth strategy, and turning user research into
+            measurable outcomes across fintech, healthtech, and SaaS.
+          </motion.p>
+
+          {/* Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: isReady ? 1 : 0, y: isReady ? 0 : 10 }}
@@ -92,7 +132,7 @@ export default function HeroSection() {
               download="AkshayaNakhate_Resume.pdf"
               className="flex items-center gap-2 px-6 py-3 border border-white/20 text-white font-mono text-xs uppercase tracking-widest font-black hover:border-white/50 transition-colors rounded-sm"
             >
-              Download Resume <span>↓</span>
+              Resume <span>↓</span>
             </a>
           </motion.div>
         </motion.div>
