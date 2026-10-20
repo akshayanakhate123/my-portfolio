@@ -138,6 +138,7 @@ export const projects: ProjectEntry[] = [
     description: "Developed a 24/7 AI voice companion that provides emotional support through natural conversations and safety-aware escalation workflows. Integrated voice AI, calendar booking, automated summaries, and counselor referrals into a single experience. Achieved 30–40% repeat usage across beta users with an average engagement time of 3–5 minutes. Won 1st place at a hackathon among 10 competing teams.",
     stack:       ["VAPI", "GPT-4o", "ElevenLabs", "Make.com", "Calendly", "Google APIs"],
     image:       `${bp}/projects/buddy.png`,
+    link:        "https://2am-buddy-sable.vercel.app/home",
     featured:    true,
   },
   {
@@ -154,6 +155,22 @@ export const projects: ProjectEntry[] = [
     stack:       ["Next.js", "Groq", "Gemini", "Speech-to-Text"],
     image:       `${bp}/projects/mindloop.png`,
     link:        "https://mind-loop-k3xq.vercel.app",
+  },
+  {
+    name:        "Ola Link – Urban Commute Guarantee Engine",
+    description: "APM product proposal for Ola Electric (India 2035). Reframed the brief: India's commute problem is predictability, not mobility. Designed Ola Link — a three-layer system comprising a unified Link Pass across all transit legs, a managed electric feeder network, and a Guarantee Engine that detects missed-connection risk before the commuter notices and dispatches recovery via a cheapest-viable-action ladder. Built a working corridor simulator that stress-tests a peak-hour feeder network against metro delays, traffic multipliers, and demand spikes — with full recovery logic, capped budgets, and a corridor-pause trigger when the guarantee is breached. Turning the engine off in the simulator shows the same corridor failing without it.",
+    stack:       ["React", "TypeScript", "Simulation Engine", "Vercel"],
+    image:       `${bp}/projects/ola-link.png`,
+    link:        "https://ola-link-guarantee-engine.vercel.app/",
+    featured:    true,
+  },
+  {
+    name:        "CreVa – AI Deal Intelligence for Micro-Creators",
+    description: "PM Intern take-home for Certinal. Reframed the brief from 'help influencers grow' to the real bottleneck: micro-creators (10K–100K followers, India) have no tools to know what a brand deal is worth or what it commits them to. Built CreVa — a creator-side commercial command center with AI deal valuation (rule-based parser + Groq LLM waterfall), contract review that converts usage rights and exclusivity clauses into rupees, three-mode negotiation drafts (Maximize / Protect relationship / Preserve budget), and a deal tracker. North star: CreVa-Assisted Deal Value Closed. Live prototype runs on demo data with a 3-tier evidence architecture and 5 safety guardrails preventing invented benchmarks, false certainty, and creator-control violations.",
+    stack:       ["Groq LLM", "Supabase", "React", "TypeScript", "Vercel"],
+    image:       `${bp}/projects/creva.png`,
+    link:        "https://creva-self.vercel.app/",
+    featured:    true,
   },
   {
     name:        "Mentorship Booking Portal",
