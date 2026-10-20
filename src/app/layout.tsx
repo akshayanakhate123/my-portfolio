@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Syne } from "next/font/google";
 import "./globals.css";
 import ScrollToTop from "@/components/ScrollToTop";
-import AuthButton from "@/components/auth/AuthButton";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -37,7 +36,6 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${syne.variable}`}>
       <body className="font-sans antialiased" suppressHydrationWarning>
         <ScrollToTop />
-        <AuthButton />
         {children}
       </body>
     </html>
