@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import type { User } from "@supabase/supabase-js";
+import type { User, AuthChangeEvent, Session } from "@supabase/supabase-js";
 
 export default function AuthButton() {
   const [user, setUser] = useState<User | null>(null);
@@ -10,19 +10,20 @@ export default function AuthButton() {
   const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
+    if (!supabase) { setLoading(false); return; }
+
     supabase.auth.getUser().then(({ data }) => {
       setUser(data.user);
       setLoading(false);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      async (event: AuthChangeEvent, session: Session | null) => {
         const currentUser = session?.user ?? null;
         setUser(currentUser);
 
-        // Log visit when a new sign-in occurs
         if (event === "SIGNED_IN" && currentUser) {
-          await supabase.from("page_visits").insert({
+          await supabase?.from("page_visits").insert({
             user_id:    currentUser.id,
             email:      currentUser.email,
             name:       currentUser.user_metadata?.full_name ?? null,
@@ -37,13 +38,13 @@ export default function AuthButton() {
   }, []);
 
   const signIn = () =>
-    supabase.auth.signInWithOAuth({
+    supabase?.auth.signInWithOAuth({
       provider: "google",
       options: { redirectTo: window.location.origin },
     });
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    await supabase?.auth.signOut();
     setShowMenu(false);
   };
 
