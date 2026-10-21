@@ -30,6 +30,23 @@ export default function HeroSection() {
 
   return (
     <section className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-black select-none">
+      {/* Subtle animated grid */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.025]"
+        style={{
+          backgroundImage: `linear-gradient(rgba(249,115,22,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(249,115,22,0.4) 1px, transparent 1px)`,
+          backgroundSize: "80px 80px",
+        }}
+      />
+
+      {/* Floating accent dots */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/4 right-1/4 w-1 h-1 rounded-full bg-accent/40 animate-float" style={{ animationDelay: "0s" }} />
+        <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 rounded-full bg-accent/25 animate-float" style={{ animationDelay: "1s" }} />
+        <div className="absolute top-2/3 right-1/5 w-1 h-1 rounded-full bg-accent/30 animate-float" style={{ animationDelay: "0.5s" }} />
+        <div className="absolute top-1/2 right-2/5 w-0.5 h-0.5 rounded-full bg-accent/50 animate-float-slow" style={{ animationDelay: "1.5s" }} />
+      </div>
+
       {/* Background watermark */}
       <motion.div
         style={{ x: nameX, y: nameY }}
@@ -64,7 +81,7 @@ export default function HeroSection() {
           </motion.p>
 
           {/* Name */}
-          <h1 className="text-[2rem] sm:text-[2.8rem] md:text-[3.6rem] lg:text-[4.2rem] font-display font-black uppercase text-accent leading-[0.88] tracking-tighter mb-4 sm:mb-5">
+          <h1 className="text-[2rem] sm:text-[2.8rem] md:text-[3.6rem] lg:text-[4.2rem] font-display font-black uppercase text-accent leading-[0.88] tracking-tighter mb-4 sm:mb-5 text-shimmer">
             AKSHAYA<br />NAKHATE
           </h1>
 
@@ -161,9 +178,9 @@ export default function HeroSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: isReady ? 1 : 0 }}
         transition={{ delay: 1 }}
-        className="absolute bottom-10 left-10 z-30 flex items-center gap-3"
+        className="absolute bottom-10 left-10 z-30 flex items-center gap-3 animate-float"
       >
-        <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center animate-glow-pulse">
           <span className="text-white/40 text-sm">↓</span>
         </div>
         <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-white/30">Scroll to Explore</span>

@@ -1,39 +1,41 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { X, Send, MessageCircle, Trophy, Medal, Award, Target, Flame, BarChart2 } from "lucide-react";
+import { X, Send, MessageCircle, Trophy, Medal, Award, Target, Flame, BarChart2, ExternalLink } from "lucide-react";
 
 interface RichLine { icon: React.ElementType; text: string }
+interface Link { label: string; url: string }
 interface Message {
   from: "bot" | "user";
   text: string;
   richLines?: RichLine[];
+  links?: Link[];
   suggestions?: string[];
 }
 
-const FAQS: { keywords: string[]; answer: string; richLines?: RichLine[]; suggestions: string[] }[] = [
+const FAQS: { keywords: string[]; answer: string; richLines?: RichLine[]; links?: Link[]; suggestions: string[] }[] = [
   {
     keywords: ["who", "about", "introduce", "akshaya", "yourself", "background"],
     answer:
-      "Akshaya Nakhate is an Associate Product Manager specialising in Growth & AI Products. She's an Engineer turned MBA candidate at Scaler School of Business, with 2+ years at Accenture building Salesforce & GenAI solutions, and internship experience at InCred Wealth and Intent Farm.",
+      "Akshaya Nakhate is an Associate Product Manager in Growth & AI. Engineer turned MBA candidate at Scaler School of Business, with 2+ years at Accenture (Salesforce & GenAI), and internships at InCred Wealth and Intent Farm.",
     suggestions: ["Where has she worked?", "What projects has she built?", "What are her achievements?"],
   },
   {
     keywords: ["work", "experience", "accenture", "job", "career", "professional", "engineer", "analyst"],
     answer:
-      "Akshaya worked as an Advance Application Engineering Analyst at Accenture India (Jul 2022 - Aug 2024), building AI-enabled Salesforce workflows for healthcare and SaaS clients. Key wins: GenAI PoC cutting manual effort by 40%, LWC automation driving 80% adoption, and reducing patient intake time from 20 to 8 minutes.",
+      "Advance App Engineering Analyst at Accenture India (Jul 2022 - Aug 2024).\n• GenAI PoC on Salesforce Data Cloud + Einstein LLM - cut manual effort 40%\n• LWC automation - 80% team adoption\n• Reduced patient intake time from 20 to 8 mins\n• 5 Salesforce certifications earned during tenure",
     suggestions: ["What about her internships?", "What Salesforce skills does she have?", "What GenAI work has she done?"],
   },
   {
     keywords: ["incred", "wealth", "product intern", "fintech", "crm", "zoho"],
     answer:
-      "Akshaya interned as a Product Intern at InCred Wealth (Aug-Oct 2026), a SEBI-registered wealth management platform. She built a Zoho CRM for AMC sales workflows saving 25-35% daily manual tracking per RM, led discovery for a self-serve distributor onboarding portal, and consolidated 10+ metric sources into a single analytics dashboard.",
+      "Product Intern at InCred Wealth (Aug-Oct 2026) - SEBI-registered wealth platform.\n• Built Zoho CRM for AMC sales - saved 25-35% daily manual tracking per RM\n• Led discovery for self-serve distributor onboarding portal\n• Consolidated 10+ metric sources into one analytics dashboard",
     suggestions: ["Tell me about Intent Farm internship", "What PM skills does she have?", "What's her education?"],
   },
   {
     keywords: ["intent farm", "marketing", "growth", "d2c", "meta", "google ads", "internship"],
     answer:
-      "Akshaya did a Growth & Strategy Traineeship at Intent Farm (Feb-Apr 2026), a Google Premier & Meta Verified performance marketing agency. She audited 10+ D2C brands including Giordano and CodeYoung, and designed a reusable 4-stage retention funnel now used as a standard playbook.",
+      "Growth & Strategy Traineeship at Intent Farm (Feb-Apr 2026) - Google Premier & Meta Verified agency.\n• Audited 10+ D2C brands including Giordano and CodeYoung\n• Designed a reusable 4-stage retention funnel now used as a standard playbook",
     suggestions: ["Tell me about InCred internship", "What projects has she built?", "What are her skills?"],
   },
   {
@@ -46,36 +48,42 @@ const FAQS: { keywords: string[]; answer: string; richLines?: RichLine[]; sugges
     keywords: ["project", "build", "built", "product", "app", "portfolio"],
     answer:
       "Akshaya has built 12 products across AI, fintech, and SaaS:\n• 2AM Buddy - AI voice emotional support (Hackathon winner)\n• AuditGPT - Growth diagnostics for D2C brands\n• MindLoop - AI case interview practice\n• Ola Link - Urban commute guarantee engine\n• CreVa - AI deal intelligence for creators\n• Enhanced LinkedIn, Nykaa, StudiSpot, SuccessOS, and more\n\nAsk me about any specific one!",
+    links: [{ label: "Browse all builds", url: "#projects" }],
     suggestions: ["Tell me about 2AM Buddy", "What's AuditGPT?", "Tell me about Ola Link"],
   },
   {
     keywords: ["2am", "buddy", "voice", "emotional", "support", "hackathon", "vapi"],
     answer:
       "2AM Buddy is a 24/7 AI voice companion for emotional support, built using VAPI, GPT-4o, ElevenLabs, and Make.com. It includes calendar booking, automated summaries, and counselor referrals. It achieved 30-40% repeat usage across beta users and won 1st place at a hackathon among 10 teams.",
+    links: [{ label: "Explore 2AM Buddy", url: "https://2am-buddy-sable.vercel.app/home" }],
     suggestions: ["What's AuditGPT?", "Tell me about MindLoop", "What other AI projects has she built?"],
   },
   {
     keywords: ["auditgpt", "audit", "diagnostic", "saas"],
     answer:
       "AuditGPT is a self-serve SaaS platform that automates growth audits for D2C brands. It analyzes websites across PDP health, creatives, social presence, and SEO. It reduced audit turnaround from 6 hours to 20 minutes and was tested across 10+ live brands. Built with Next.js, FastAPI, Playwright, and Groq.",
+    links: [{ label: "Explore AuditGPT", url: "https://audit-gpt-c.vercel.app" }],
     suggestions: ["Tell me about 2AM Buddy", "What's MindLoop?", "Tell me about CreVa"],
   },
   {
     keywords: ["mindloop", "case", "interview", "guesstimate", "practice"],
     answer:
       "MindLoop is an audio-first platform helping MBA students practice guesstimates and case interviews via voice. It generates daily reasoning challenges, delivers AI feedback on structure and accuracy, and includes streak-based progression. Built with a multi-LLM fallback using Next.js, Groq, and Gemini.",
+    links: [{ label: "Explore MindLoop", url: "https://mind-loop-k3xq.vercel.app" }],
     suggestions: ["Tell me about AuditGPT", "What's StudiSpot?", "Tell me about SuccessOS"],
   },
   {
     keywords: ["ola", "link", "commute", "electric", "feeder", "transit", "guarantee"],
     answer:
       "Ola Link is an APM product proposal for Ola Electric (India 2035) - a 3-layer system with a unified Link Pass, managed electric feeder network, and a Guarantee Engine that detects missed-connection risk and dispatches recovery. Includes a working corridor simulator built with React and TypeScript.",
+    links: [{ label: "Explore Ola Link", url: "https://ola-link-guarantee-engine.vercel.app/" }],
     suggestions: ["Tell me about CreVa", "What other PM work has she done?", "What competitions has she won?"],
   },
   {
     keywords: ["creva", "creator", "deal", "influencer", "micro", "brand", "negotiation"],
     answer:
       "CreVa is a creator-side commercial command center for micro-creators (10K-100K followers). It includes AI deal valuation, contract review converting usage rights into rupees, 3-mode negotiation drafts, and a deal tracker. Built with Groq LLM, Supabase, React, and TypeScript.",
+    links: [{ label: "Explore CreVa", url: "https://creva-self.vercel.app/" }],
     suggestions: ["Tell me about Ola Link", "Tell me about 2AM Buddy", "What's her tech stack?"],
   },
   {
@@ -124,15 +132,15 @@ const INITIAL_SUGGESTIONS = [
   "What competitions has she won?",
 ];
 
-function match(input: string): { answer: string; richLines?: RichLine[]; suggestions: string[] } {
+function match(input: string): { answer: string; richLines?: RichLine[]; links?: Link[]; suggestions: string[] } {
   const lower = input.toLowerCase();
-  let best = { score: 0, answer: "", richLines: undefined as RichLine[] | undefined, suggestions: [] as string[] };
+  let best = { score: 0, answer: "", richLines: undefined as RichLine[] | undefined, links: undefined as Link[] | undefined, suggestions: [] as string[] };
   for (const faq of FAQS) {
     const score = faq.keywords.filter((k) => lower.includes(k)).length;
-    if (score > best.score) best = { score, answer: faq.answer, richLines: faq.richLines, suggestions: faq.suggestions };
+    if (score > best.score) best = { score, answer: faq.answer, richLines: faq.richLines, links: faq.links, suggestions: faq.suggestions };
   }
   return best.score > 0
-    ? { answer: best.answer, richLines: best.richLines, suggestions: best.suggestions }
+    ? { answer: best.answer, richLines: best.richLines, links: best.links, suggestions: best.suggestions }
     : {
         answer: "I'm not sure about that one. Try asking about Akshaya's projects, work experience, education, skills, achievements, or how to contact her!",
         suggestions: ["What projects has she built?", "Where has she worked?", "What are her achievements?"],
@@ -158,11 +166,11 @@ export default function ChatBot() {
   const send = (text: string) => {
     const q = text.trim();
     if (!q) return;
-    const { answer, richLines, suggestions } = match(q);
+    const { answer, richLines, links, suggestions } = match(q);
     setMessages((m) => [
       ...m,
       { from: "user", text: q },
-      { from: "bot", text: answer, richLines, suggestions },
+      { from: "bot", text: answer, richLines, links, suggestions },
     ]);
     setInput("");
   };
@@ -224,6 +232,23 @@ export default function ChatBot() {
                         );
                       })}
                     </ul>
+                  )}
+                  {msg.links && msg.links.length > 0 && (
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {msg.links.map((link, j) => (
+                        <a
+                          key={j}
+                          href={link.url}
+                          target={link.url.startsWith("#") ? "_self" : "_blank"}
+                          rel="noopener noreferrer"
+                          onClick={() => { if (link.url.startsWith("#")) setOpen(false); }}
+                          className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold text-accent border border-accent/30 bg-accent/10 rounded-lg px-3 py-1.5 hover:bg-accent/20 hover:border-accent/60 transition-all"
+                        >
+                          <ExternalLink size={10} strokeWidth={2.5} />
+                          {link.label}
+                        </a>
+                      ))}
+                    </div>
                   )}
                 </div>
               </div>

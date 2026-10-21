@@ -2,9 +2,9 @@
 
 import { motion } from "framer-motion";
 import { projects, type ProjectEntry } from "@/data/resume";
-import { ExternalLink, RotateCcw } from "lucide-react";
+import { ExternalLink, RotateCcw, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
 const GithubIcon = ({ size = 18 }: { size?: number }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -14,11 +14,9 @@ const GithubIcon = ({ size = 18 }: { size?: number }) => (
 );
 
 function ProjectCard({ project, index }: { project: ProjectEntry; index: number }) {
-  // Only the first 2 cards are above the fold — rest load lazily
   const [flipped, setFlipped] = useState(false);
 
   return (
-    /* Fixed size — all cards identical */
     <div
       data-card
       className="relative flex-shrink-0 snap-center w-[85vw] sm:w-[54vw] lg:w-[36vw] xl:w-[28vw] h-[460px] sm:h-[520px]"
@@ -29,13 +27,11 @@ function ProjectCard({ project, index }: { project: ProjectEntry; index: number 
         className="relative w-full h-full transition-transform duration-700 ease-in-out"
         style={{ transformStyle: "preserve-3d", transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)" }}
       >
-
         {/* ── FRONT ── */}
         <div
-          className="absolute inset-0 rounded-[28px] overflow-hidden border border-white/8 bg-[#0e0e11] shadow-[0_24px_60px_rgba(0,0,0,0.8)] cursor-pointer flex flex-col"
+          className="absolute inset-0 rounded-[28px] overflow-hidden border border-white/8 bg-[#0e0e11] shadow-[0_24px_60px_rgba(0,0,0,0.8)] cursor-pointer flex flex-col hover:border-accent/20 transition-colors duration-500"
           style={{ backfaceVisibility: "hidden" }}
         >
-          {/* Badge row */}
           <div className="flex items-center justify-between px-5 pt-4 pb-3 flex-shrink-0">
             <span className="font-mono text-[10px] text-accent tracking-[0.3em] uppercase font-black">
               {String(index + 1).padStart(2, "0")} / Build
@@ -47,7 +43,6 @@ function ProjectCard({ project, index }: { project: ProjectEntry; index: number 
             )}
           </div>
 
-          {/* Image — fixed height, object-contain, bg fills letterbox */}
           <div className="mx-4 rounded-2xl overflow-hidden bg-[#18181b] flex-1 relative">
             {project.image ? (
               <Image
@@ -56,7 +51,7 @@ function ProjectCard({ project, index }: { project: ProjectEntry; index: number 
                 fill
                 priority={index < 2}
                 loading={index < 2 ? "eager" : "lazy"}
-                className="object-contain opacity-95 p-2"
+                className="object-contain opacity-95 p-2 group-hover:scale-105 transition-transform duration-700"
               />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center text-white/10 font-display text-xl font-black">
@@ -65,7 +60,6 @@ function ProjectCard({ project, index }: { project: ProjectEntry; index: number 
             )}
           </div>
 
-          {/* Title */}
           <div className="px-5 pt-3 pb-5 flex-shrink-0">
             <h3 className="text-sm md:text-base font-display font-black text-white uppercase tracking-tight leading-snug mb-1 line-clamp-2">
               {project.name}
@@ -81,7 +75,6 @@ function ProjectCard({ project, index }: { project: ProjectEntry; index: number 
           className="absolute inset-0 rounded-[28px] border border-accent/20 bg-[#0e0e11] shadow-[0_24px_60px_rgba(0,0,0,0.8)] cursor-pointer flex flex-col p-6"
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
-          {/* Header */}
           <div className="flex-shrink-0">
             <span className="font-mono text-[10px] text-accent tracking-[0.3em] uppercase font-black">
               {String(index + 1).padStart(2, "0")} / Build
@@ -92,14 +85,12 @@ function ProjectCard({ project, index }: { project: ProjectEntry; index: number 
             <div className="mt-3 h-px bg-white/8" />
           </div>
 
-          {/* Description — scrollable so it never overflows */}
           <div className="flex-1 overflow-y-auto mt-4 pr-1 [scrollbar-width:thin] [scrollbar-color:rgba(255,255,255,0.1)_transparent]">
             <p className="text-white/55 text-xs leading-relaxed">
               {project.description}
             </p>
           </div>
 
-          {/* Stack */}
           <div className="flex-shrink-0 mt-4">
             <p className="font-mono text-[9px] text-white/20 uppercase tracking-widest mb-2">Stack</p>
             <div className="flex flex-wrap gap-1.5">
@@ -111,7 +102,6 @@ function ProjectCard({ project, index }: { project: ProjectEntry; index: number 
             </div>
           </div>
 
-          {/* Footer */}
           <div className="flex-shrink-0 flex items-center justify-between mt-4 pt-4 border-t border-white/8">
             <div className="flex gap-3">
               {project.link?.includes("github") && (
@@ -124,7 +114,7 @@ function ProjectCard({ project, index }: { project: ProjectEntry; index: number 
               {project.link && !project.link.includes("github") && (
                 <a href={project.link} target="_blank" rel="noopener noreferrer"
                   onClick={e => e.stopPropagation()}
-                  className="text-white/35 hover:text-white transition-colors">
+                  className="text-white/35 hover:text-accent transition-colors">
                   <ExternalLink size={16} />
                 </a>
               )}
@@ -140,30 +130,118 @@ function ProjectCard({ project, index }: { project: ProjectEntry; index: number 
   );
 }
 
+const SPEED = 1.0; // px per animation frame
+const CARD_GAP = 24; // 1.5rem
+
 const doubled = [...projects, ...projects];
 
 export default function ProjectSection() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const posRef = useRef(0);
+  const frameRef = useRef<number>(0);
+  const pausedRef = useRef(false);
+  const [hovering, setHovering] = useState(false);
+
+  const animate = useCallback(() => {
+    const track = trackRef.current;
+    if (track && !pausedRef.current) {
+      posRef.current += SPEED;
+      const half = track.scrollWidth / 2;
+      if (posRef.current >= half) posRef.current = 0;
+      track.style.transform = `translateX(-${posRef.current}px)`;
+    }
+    frameRef.current = requestAnimationFrame(animate);
+  }, []);
+
+  useEffect(() => {
+    frameRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frameRef.current);
+  }, [animate]);
+
+  useEffect(() => {
+    pausedRef.current = hovering;
+  }, [hovering]);
+
+  const scrollByCard = (dir: 1 | -1) => {
+    const track = trackRef.current;
+    if (!track) return;
+    // Get actual card width from DOM
+    const card = track.querySelector("[data-card]") as HTMLElement | null;
+    const cardW = card ? card.offsetWidth + CARD_GAP : 400;
+    pausedRef.current = true;
+    let next = posRef.current + dir * cardW;
+    const half = track.scrollWidth / 2;
+    if (next < 0) next = half + next;
+    if (next >= half) next = next - half;
+    posRef.current = next;
+    track.style.transform = `translateX(-${posRef.current}px)`;
+    // Resume after a moment
+    setTimeout(() => { pausedRef.current = hovering; }, 700);
+  };
+
   return (
     <section id="projects" className="relative py-20">
-      <div className="px-6 max-w-7xl mx-auto text-center mb-10">
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="text-4xl md:text-5xl font-display font-black uppercase tracking-tighter text-white leading-none"
+      {/* Heading + arrows */}
+      <div className="px-6 max-w-7xl mx-auto mb-10 flex items-end justify-between">
+        <div>
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl md:text-5xl font-display font-black uppercase tracking-tighter text-white leading-none"
+          >
+            BUILDS
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="mt-2 font-mono text-[10px] text-white/30 uppercase tracking-[0.3em]"
+          >
+            Hover to pause · tap a card to flip
+          </motion.p>
+        </div>
+
+        {/* Navigation arrows */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="flex items-center gap-2"
         >
-          BUILDS
-        </motion.h2>
-        <p className="mt-4 font-mono text-[10px] text-white/30 uppercase tracking-[0.3em]">
-          Hover to pause · tap a card to flip
-        </p>
+          <button
+            onClick={() => scrollByCard(-1)}
+            aria-label="Previous project"
+            className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:border-accent/50 hover:text-accent hover:shadow-[0_0_16px_rgba(249,115,22,0.3)] transition-all duration-300"
+          >
+            <ChevronLeft size={18} strokeWidth={2} />
+          </button>
+          <button
+            onClick={() => scrollByCard(1)}
+            aria-label="Next project"
+            className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:border-accent/50 hover:text-accent hover:shadow-[0_0_16px_rgba(249,115,22,0.3)] transition-all duration-300"
+          >
+            <ChevronRight size={18} strokeWidth={2} />
+          </button>
+        </motion.div>
       </div>
 
-      <div className="overflow-hidden">
-        <div className="marquee-track" style={{ gap: "1.5rem", animationDuration: "80s" }}>
+      {/* Scrolling track */}
+      <div
+        className="overflow-hidden"
+        onMouseEnter={() => setHovering(true)}
+        onMouseLeave={() => setHovering(false)}
+      >
+        <div
+          ref={trackRef}
+          className="flex"
+          style={{ gap: `${CARD_GAP}px`, willChange: "transform", paddingLeft: `${CARD_GAP}px` }}
+        >
           {doubled.map((project, i) => (
-            <div key={`${project.name}-${i}`} style={{ marginRight: "1.5rem" }}>
-              <ProjectCard project={project} index={i % projects.length} />
-            </div>
+            <ProjectCard key={`${project.name}-${i}`} project={project} index={i % projects.length} />
           ))}
         </div>
       </div>
