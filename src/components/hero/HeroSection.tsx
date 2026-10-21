@@ -8,17 +8,14 @@ export default function HeroSection() {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    // Small tick so first paint completes before animations begin
     const timer = setTimeout(() => setIsReady(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
-  /* ── Cursor parallax ─────────────────────────────────── */
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
   const springY = useSpring(mouseY, { stiffness: 50, damping: 20 });
-
   const nameX = useTransform(springX, [-1, 1], ["-15px", "15px"]);
   const nameY = useTransform(springY, [-1, 1], ["-10px", "10px"]);
 
@@ -33,7 +30,7 @@ export default function HeroSection() {
 
   return (
     <section className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-black select-none">
-      {/* Background Name (Optimized scaling to avoid overwhelming the screen) */}
+      {/* Background watermark */}
       <motion.div
         style={{ x: nameX, y: nameY }}
         initial={{ opacity: 0, scale: 0.9 }}
@@ -46,98 +43,93 @@ export default function HeroSection() {
         </h2>
       </motion.div>
 
-      {/* Main Hero Content */}
-      <div className="relative z-20 flex flex-col md:flex-row items-center justify-between min-h-screen w-full px-6 md:px-12 lg:px-24 gap-8 md:gap-32">
-        
-        {/* Left Side: Text Content */}
+      {/* Main layout */}
+      <div className="relative z-20 flex flex-col md:flex-row items-center justify-between min-h-screen w-full px-6 md:px-12 lg:px-24 gap-8 md:gap-16">
+
+        {/* ── Left: Text ── */}
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: isReady ? 1 : 0, x: isReady ? 0 : -50 }}
+          initial={{ opacity: 0, x: -40 }}
+          animate={{ opacity: isReady ? 1 : 0, x: isReady ? 0 : -40 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="flex-shrink-0 flex flex-col items-start justify-center text-left pt-32 md:pt-0 z-30 max-w-lg"
+          className="flex-shrink-0 flex flex-col items-start justify-center text-left pt-24 md:pt-0 z-30 w-full max-w-xs lg:max-w-sm"
         >
-          {/* "HEY, I'M" label */}
+          {/* HEY, I'M */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: isReady ? 1 : 0 }}
             transition={{ delay: 0.1 }}
-            className="font-mono text-xs md:text-sm tracking-[0.35em] uppercase text-white/40 font-bold mb-3"
+            className="font-mono text-[9px] tracking-[0.45em] uppercase text-white/30 mb-2"
           >
             HEY, I&apos;M
           </motion.p>
 
-          {/* Name in accent colour */}
-          <h1 className="text-[3.2rem] sm:text-[4.5rem] md:text-[5.5rem] lg:text-[6.5rem] font-display font-black uppercase text-accent leading-[0.88] tracking-tighter mb-5">
-            AKSHAYA<br/>NAKHATE
+          {/* Name */}
+          <h1 className="text-[2rem] sm:text-[2.8rem] md:text-[3.6rem] lg:text-[4.2rem] font-display font-black uppercase text-accent leading-[0.88] tracking-tighter mb-4 sm:mb-5">
+            AKSHAYA<br />NAKHATE
           </h1>
 
-          {/* Bold tagline */}
-          <motion.h2
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isReady ? 1 : 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-lg sm:text-xl md:text-2xl font-display font-black uppercase text-white leading-tight tracking-tight mb-4 max-w-sm"
-          >
-            Building AI products that move fast and scale faster.
-          </motion.h2>
+          {/* Accent line */}
+          <motion.div
+            initial={{ scaleX: 0, opacity: 0 }}
+            animate={{ scaleX: isReady ? 1 : 0, opacity: isReady ? 1 : 0 }}
+            transition={{ delay: 0.25, duration: 0.5, ease: "easeOut" }}
+            className="w-8 h-[2px] bg-accent origin-left mb-5"
+          />
 
-          {/* Current role */}
+          {/* Tagline */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: isReady ? 1 : 0 }}
-            transition={{ delay: 0.45 }}
-            className="text-sm text-white/50 mb-2"
+            transition={{ delay: 0.35 }}
+            className="text-sm md:text-base text-white/70 leading-relaxed font-sans mb-2 max-w-[280px] sm:max-w-[300px]"
           >
-            Currently pursuing MBA at{" "}
-            <span className="text-white/80 font-semibold">Scaler School of Business</span>
+            Building AI products at the intersection of growth and technology.
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isReady ? 1 : 0 }}
+            transition={{ delay: 0.42 }}
+            className="text-xs text-white/40 leading-relaxed font-sans mb-5 max-w-[280px] sm:max-w-[300px]"
+          >
+            I&apos;m an engineer turned product builder with 2+ years at Accenture shipping GenAI workflows. I specialise in AI-powered products, growth strategy, and turning user research into measurable outcomes across fintech, healthtech, and SaaS.
           </motion.p>
 
           {/* Location */}
-          <motion.p
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: isReady ? 1 : 0 }}
             transition={{ delay: 0.5 }}
-            className="flex items-center gap-1.5 text-xs text-white/35 font-mono mb-7"
+            className="flex flex-col gap-1.5 mb-8"
           >
-            <span>📍</span> Bengaluru, India
-          </motion.p>
-
-          {/* Bio */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isReady ? 1 : 0 }}
-            transition={{ delay: 0.6 }}
-            className="text-sm text-white/45 leading-relaxed max-w-sm mb-9"
-          >
-            Engineer turned product builder with 2+ years at Accenture shipping GenAI workflows.
-            I specialise in AI-powered products, growth strategy, and turning user research into
-            measurable outcomes across fintech, healthtech, and SaaS.
-          </motion.p>
+            <p className="font-mono text-[10px] text-white/25 uppercase tracking-[0.2em]">
+              📍 Bengaluru, India
+            </p>
+          </motion.div>
 
           {/* Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: isReady ? 1 : 0, y: isReady ? 0 : 10 }}
-            transition={{ delay: 0.7 }}
-            className="flex flex-wrap gap-4"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: isReady ? 1 : 0, y: isReady ? 0 : 8 }}
+            transition={{ delay: 0.65 }}
+            className="flex flex-wrap gap-3"
           >
             <a
               href="#projects"
-              className="flex items-center gap-2 px-6 py-3 bg-accent text-black font-mono text-xs uppercase tracking-widest font-black hover:bg-accent/90 transition-colors rounded-sm"
+              className="flex items-center gap-2 px-5 py-2.5 bg-accent text-black font-mono text-[10px] uppercase tracking-widest font-black hover:bg-accent/90 transition-colors rounded-sm"
             >
               View Projects <span>↗</span>
             </a>
             <a
               href="/AkshayaNakhate_Resume.pdf"
               download="AkshayaNakhate_Resume.pdf"
-              className="flex items-center gap-2 px-6 py-3 border border-white/20 text-white font-mono text-xs uppercase tracking-widest font-black hover:border-white/50 transition-colors rounded-sm"
+              className="flex items-center gap-2 px-5 py-2.5 border border-white/15 text-white/60 font-mono text-[10px] uppercase tracking-widest font-black hover:border-white/40 hover:text-white transition-colors rounded-sm"
             >
               Resume <span>↓</span>
             </a>
           </motion.div>
         </motion.div>
 
-        {/* Right Side: The 3D Robot — hidden on mobile to avoid overflow */}
+        {/* ── Right: 3D Robot ── */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -153,7 +145,7 @@ export default function HeroSection() {
         </motion.div>
       </div>
 
-      {/* Navbar Overlay */}
+      {/* Navbar */}
       <div className="absolute top-10 w-full px-10 flex justify-between items-center z-30">
         <span className="font-display font-black text-2xl text-white">AK.</span>
         <nav className="hidden md:flex items-center gap-8 font-mono text-xs uppercase tracking-widest">
@@ -164,7 +156,7 @@ export default function HeroSection() {
         </nav>
       </div>
 
-      {/* Scroll to Explore */}
+      {/* Scroll hint */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: isReady ? 1 : 0 }}
