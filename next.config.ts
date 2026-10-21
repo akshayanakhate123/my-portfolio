@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  transpilePackages: ["@splinetool/react-spline", "@splinetool/runtime"],
 };
 
 export default nextConfig;
