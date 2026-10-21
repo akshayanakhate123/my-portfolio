@@ -1,16 +1,7 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { type JourneyEntry } from "@/data/resume";
-
-const bulletVariants: Variants = {
-  hidden: { opacity: 0, x: -12 },
-  visible: (i: number) => ({
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.35, delay: i * 0.07, ease: "easeOut" as const },
-  }),
-};
 
 function JourneyItem({ item, globalIndex }: { item: JourneyEntry; globalIndex: number }) {
   return (
@@ -54,11 +45,10 @@ function JourneyItem({ item, globalIndex }: { item: JourneyEntry; globalIndex: n
               {item.bullets.map((b, i) => (
                 <motion.li
                   key={i}
-                  custom={i}
-                  variants={bulletVariants}
-                  initial="hidden"
-                  whileInView="visible"
+                  initial={{ opacity: 0, x: -12 }}
+                  whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-5%" }}
+                  transition={{ duration: 0.35, delay: i * 0.07 }}
                   className="flex gap-2 text-xs md:text-sm leading-relaxed text-white/40"
                 >
                   <span className="text-accent mt-0.5 flex-shrink-0">▸</span>
