@@ -155,7 +155,16 @@ export default function HeroSection() {
           className="hidden md:flex flex-1 w-full h-screen relative z-10 items-center justify-center"
         >
           <div className="absolute flex items-center justify-center min-w-[800px] lg:min-w-[1200px] h-[80vh] md:h-[120vh] pointer-events-auto">
-            <ErrorBoundary>
+            <ErrorBoundary fallback={
+              <div className="w-full h-full flex items-center justify-center">
+                <div className="relative w-64 h-64">
+                  <div className="absolute inset-0 rounded-full border border-accent/20 animate-ping" style={{ animationDuration: "3s" }} />
+                  <div className="absolute inset-8 rounded-full border border-accent/30 animate-ping" style={{ animationDuration: "2.5s", animationDelay: "0.5s" }} />
+                  <div className="absolute inset-16 rounded-full bg-accent/10 border border-accent/50 animate-pulse" />
+                  <div className="absolute inset-0 flex items-center justify-center text-accent/40 font-mono text-xs tracking-widest uppercase">AI</div>
+                </div>
+              </div>
+            }>
               <SplineScene
                 scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
                 className="w-full h-full"
