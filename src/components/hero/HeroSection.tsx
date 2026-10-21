@@ -3,6 +3,7 @@
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { useEffect, useState } from "react";
 import { SplineScene } from "@/components/ui/splite";
+import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
 
 export default function HeroSection() {
   const [isReady, setIsReady] = useState(false);
@@ -154,10 +155,12 @@ export default function HeroSection() {
           className="hidden md:flex flex-1 w-full h-screen relative z-10 items-center justify-center"
         >
           <div className="absolute flex items-center justify-center min-w-[800px] lg:min-w-[1200px] h-[80vh] md:h-[120vh] pointer-events-auto">
-            <SplineScene
-              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-              className="w-full h-full"
-            />
+            <ErrorBoundary>
+              <SplineScene
+                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                className="w-full h-full"
+              />
+            </ErrorBoundary>
           </div>
         </motion.div>
       </div>
