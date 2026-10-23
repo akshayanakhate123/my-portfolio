@@ -130,16 +130,18 @@ function ProjectCard({ project, index }: { project: ProjectEntry; index: number 
   );
 }
 
-const SPEED = 1.0; // px per animation frame
-const CARD_GAP = 24; // 1.5rem
+const SPEED = 1.0;
+const CARD_GAP = 24;
 
 const doubled = [...projects, ...projects];
 
 export default function ProjectSection() {
+  const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const posRef = useRef(0);
   const frameRef = useRef<number>(0);
   const pausedRef = useRef(false);
+  const visibleRef = useRef(false);
   const [hovering, setHovering] = useState(false);
 
   const animate = useCallback(() => {
@@ -150,12 +152,28 @@ export default function ProjectSection() {
       if (posRef.current >= half) posRef.current = 0;
       track.style.transform = `translateX(-${posRef.current}px)`;
     }
-    frameRef.current = requestAnimationFrame(animate);
+    if (visibleRef.current) {
+      frameRef.current = requestAnimationFrame(animate);
+    }
   }, []);
 
   useEffect(() => {
-    frameRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frameRef.current);
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries[0].isIntersecting;
+      visibleRef.current = visible;
+      if (visible) {
+        frameRef.current = requestAnimationFrame(animate);
+      } else {
+        cancelAnimationFrame(frameRef.current);
+      }
+    }, { threshold: 0 });
+    observer.observe(section);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(frameRef.current);
+    };
   }, [animate]);
 
   useEffect(() => {
@@ -180,7 +198,7 @@ export default function ProjectSection() {
   };
 
   return (
-    <section id="projects" className="relative py-20">
+    <section ref={sectionRef} id="projects" className="relative py-20">
       {/* Heading + arrows */}
       <div className="px-6 max-w-7xl mx-auto mb-10 flex items-end justify-between">
         <div>

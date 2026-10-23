@@ -1,9 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { type JourneyEntry } from "@/data/resume";
 
 function JourneyItem({ item, globalIndex }: { item: JourneyEntry; globalIndex: number }) {
+  const bulletsRef = useRef<HTMLUListElement>(null);
+  const bulletsInView = useInView(bulletsRef, { once: true, margin: "-5%" });
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -41,13 +45,12 @@ function JourneyItem({ item, globalIndex }: { item: JourneyEntry; globalIndex: n
             {item.description}
           </p>
           {item.bullets && item.bullets.length > 0 && (
-            <ul className="mt-4 space-y-2">
+            <ul ref={bulletsRef} className="mt-4 space-y-2">
               {item.bullets.map((b, i) => (
                 <motion.li
                   key={i}
                   initial={{ opacity: 0, x: -12 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-5%" }}
+                  animate={bulletsInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
                   transition={{ duration: 0.35, delay: i * 0.07 }}
                   className="flex gap-2 text-xs md:text-sm leading-relaxed text-white/40"
                 >

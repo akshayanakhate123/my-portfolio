@@ -25,7 +25,7 @@ export default function HeroSection() {
       mouseX.set((e.clientX - window.innerWidth / 2) / (window.innerWidth / 2));
       mouseY.set((e.clientY - window.innerHeight / 2) / (window.innerHeight / 2));
     };
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [mouseX, mouseY]);
 

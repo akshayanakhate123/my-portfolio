@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Syne } from "next/font/google";
 import "./globals.css";
 import ScrollToTop from "@/components/ScrollToTop";
-import ChatBot from "@/components/chatbot/ChatBot";
+import ChatBotLoader from "@/components/chatbot/ChatBotLoader";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -37,7 +37,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${syne.variable}`}>
       <body className="font-sans antialiased" suppressHydrationWarning>
         <ScrollToTop />
-        <ChatBot />
+        <ChatBotLoader />
         {children}
       </body>
     </html>
