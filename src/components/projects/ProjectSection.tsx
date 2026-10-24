@@ -130,7 +130,8 @@ function ProjectCard({ project, index }: { project: ProjectEntry; index: number 
   );
 }
 
-const SPEED = 1.0;
+// 50 px/second — consistent across all frame rates
+const PX_PER_MS = 50 / 1000;
 const CARD_GAP = 24;
 
 const doubled = [...projects, ...projects];
@@ -140,18 +141,25 @@ export default function ProjectSection() {
   const trackRef = useRef<HTMLDivElement>(null);
   const posRef = useRef(0);
   const frameRef = useRef<number>(0);
+  const lastTimeRef = useRef<number | null>(null);
   const pausedRef = useRef(false);
   const visibleRef = useRef(false);
+  const tweenRef = useRef<number>(0);
   const [hovering, setHovering] = useState(false);
 
-  const animate = useCallback(() => {
+  const animate = useCallback((timestamp: number) => {
     const track = trackRef.current;
     if (track && !pausedRef.current) {
-      posRef.current += SPEED;
+      // Time-based delta — stays smooth regardless of frame rate
+      const elapsed = lastTimeRef.current != null
+        ? Math.min(timestamp - lastTimeRef.current, 50) // cap at 50ms to swallow tab-switch pauses
+        : 0;
+      posRef.current += elapsed * PX_PER_MS;
       const half = track.scrollWidth / 2;
-      if (posRef.current >= half) posRef.current = 0;
+      if (posRef.current >= half) posRef.current -= half;
       track.style.transform = `translateX(-${posRef.current}px)`;
     }
+    lastTimeRef.current = timestamp;
     if (visibleRef.current) {
       frameRef.current = requestAnimationFrame(animate);
     }
@@ -164,9 +172,11 @@ export default function ProjectSection() {
       const visible = entries[0].isIntersecting;
       visibleRef.current = visible;
       if (visible) {
+        lastTimeRef.current = null; // reset so the first frame has zero delta
         frameRef.current = requestAnimationFrame(animate);
       } else {
         cancelAnimationFrame(frameRef.current);
+        lastTimeRef.current = null;
       }
     }, { threshold: 0 });
     observer.observe(section);
@@ -178,23 +188,44 @@ export default function ProjectSection() {
 
   useEffect(() => {
     pausedRef.current = hovering;
+    if (!hovering) lastTimeRef.current = null; // no delta on resume → no jump
   }, [hovering]);
 
   const scrollByCard = (dir: 1 | -1) => {
     const track = trackRef.current;
     if (!track) return;
-    // Get actual card width from DOM
     const card = track.querySelector("[data-card]") as HTMLElement | null;
     const cardW = card ? card.offsetWidth + CARD_GAP : 400;
-    pausedRef.current = true;
-    let next = posRef.current + dir * cardW;
     const half = track.scrollWidth / 2;
-    if (next < 0) next = half + next;
-    if (next >= half) next = next - half;
-    posRef.current = next;
-    track.style.transform = `translateX(-${posRef.current}px)`;
-    // Resume after a moment
-    setTimeout(() => { pausedRef.current = hovering; }, 700);
+
+    // Smooth tween to the target position
+    cancelAnimationFrame(tweenRef.current);
+    pausedRef.current = true;
+
+    const startPos = posRef.current;
+    let target = startPos + dir * cardW;
+    // Keep within [0, half)
+    if (target < 0) target += half;
+    if (target >= half) target -= half;
+
+    const duration = 420;
+    const startTime = performance.now();
+
+    const tween = (now: number) => {
+      const t = Math.min((now - startTime) / duration, 1);
+      // ease-in-out cubic
+      const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      posRef.current = startPos + (target - startPos) * e;
+      track.style.transform = `translateX(-${posRef.current}px)`;
+      if (t < 1) {
+        tweenRef.current = requestAnimationFrame(tween);
+      } else {
+        posRef.current = target;
+        pausedRef.current = hovering;
+        lastTimeRef.current = null; // no jump when auto-scroll resumes
+      }
+    };
+    tweenRef.current = requestAnimationFrame(tween);
   };
 
   return (
